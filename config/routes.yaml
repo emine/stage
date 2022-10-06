@@ -1,3 +1,11 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+# the "app_lucky_number" route name is not important yet
+#app_lucky_number:
+#    path: /lucky/number{max}
+#    controller: App\Controller\LuckyController::number
+#app_lucky_hello:
+#    path: /lucky/hello
+#    controller: App\Controller\LuckyController::hello    
+    
