@@ -15,34 +15,12 @@ class SiteController extends AbstractController
     #[Route('/', name: 'site-home')]
     public function index(): Response
     {
-        $user = $this->getUser(); 
+       
         return $this->render('site/index.html.twig', [
-            'user' => $user,
-            'error' => $user ? null : 'Not connected'
+            'user' => $this->getUser(),
+            'registerUrl' => $this->generateUrl('app_register') ,
+            'loginUrl' => $this->generateUrl('app_login') ,
         ]);
     }
-    
-
-
-    
-    #[Route('/testuser', name: 'test_user')]
-    public function testUser(ManagerRegistry $doctrine): Response
-    {
-        $entityManager = $doctrine->getManager();
-
-        $user = new User();
-        $user->setPseudo('Tonton');
-        $user->setEmail('olivia@ejerome.net');
-        $user->setPassword('yo');
-
-        // tell Doctrine you want to (eventually) save the User (no queries yet)
-        $entityManager->persist($user);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-
-        return new Response('Saved new user with id '.$user->getId());
-    }
-    
     
 }

@@ -28,24 +28,7 @@ class LoginController extends AbstractController
 
 
     
-    #[Route('/testuser', name: 'test_user')]
-    public function testUser(ManagerRegistry $doctrine): Response
-    {
-        $entityManager = $doctrine->getManager();
-
-        $user = new User();
-        $user->setPseudo('Tonton');
-        $user->setEmail('olivia@ejerome.net');
-        $user->setPassword('yo');
-
-        // tell Doctrine you want to (eventually) save the User (no queries yet)
-        $entityManager->persist($user);
-
-        // actually executes the queries (i.e. the INSERT query)
-        $entityManager->flush();
-
-        return new Response('Saved new user with id '.$user->getId());
-    }
+ 
     
     
 }

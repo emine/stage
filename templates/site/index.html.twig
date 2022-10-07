@@ -4,10 +4,13 @@
 {# ... #}
 
 {% block body %}
-    {% if error %}
-        <div>{{ error}}</div>
+    {% if user %}
+        <h4> Yo {{ user.email }} !</h4>
     {% else %}
-       <h1> Yo {{ user.email }}
-    {% endif %}
-
+        <a href={{ registerUrl }}>S'inscrire</a>
+        <p><p>
+        <a href={{ loginUrl }}>Se connecter</a>
+        <p><p>
+            
+    {% endif %}   
 {% endblock %}

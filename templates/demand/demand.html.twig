@@ -1,0 +1,16 @@
+{# empty Twig template #}
+{% if add %}
+    <form action="{{ path('demand_add') }}" method="POST">
+{% else %}
+    <form action="{{ path('demand_edit', {'id' : id}) }}" method="POST">
+{%  endif %}     
+     Titre : <input type='text' name='title'  value='{{ title }}'>
+     <p>
+         Texte : <textarea rows=5 name="text" >{{text}}</textarea>
+     <p>
+        <button
+            type="submit"
+            name="submit"
+            value='submit'
+        >Enregistrer</button>
+</form>
