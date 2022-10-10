@@ -1,16 +1,34 @@
-{# templates/site/home.html.twig #}
+{# templates/site/index.html.twig #}
 {% extends 'base.html.twig' %}
 
-{# ... #}
+{# 
+vars passed by controller : 
+    registerUrl
+    loginUrl
+#}
 
 {% block body %}
-    {% if user %}
-        <h4> Yo {{ user.email }} !</h4>
+    {% if app.user %}
+        {% if app.user.pseudo %}
+            <h4> Yo {{ app.user.email }} !</h4>
+        {% endif %}
+        <p>
+        <a>Mon profil</a>
+        <p>
+        <a href={{ path('demand_edit', {'id' : 0})}}>Ajouter une demande</a>
+        <p>
+        <a href={{ app.request.baseUrl}}/my_demands>Gérer mes demandes</a>
+        <p>
+        <a href={{ app.request.baseUrl}}/all_demands>Voir toutes les demandes</a>
+        </p>
+            
     {% else %}
-        <a href={{ registerUrl }}>S'inscrire</a>
+        <a href={{ app.request.baseUrl}}/register>S'inscrire</a>
         <p><p>
-        <a href={{ loginUrl }}>Se connecter</a>
+        <a href={{ app.request.baseUrl}}/login>Se connecter</a>
         <p><p>
             
     {% endif %}   
 {% endblock %}
+
+

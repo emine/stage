@@ -17,9 +17,6 @@ class SiteController extends AbstractController
     {
        
         return $this->render('site/index.html.twig', [
-            'user' => $this->getUser(),
-            'registerUrl' => $this->generateUrl('app_register') ,
-            'loginUrl' => $this->generateUrl('app_login') ,
         ]);
     }
     

@@ -1,6 +1,16 @@
 {# empty Twig template #}
- <form action="{{ path('test_plain_form') }}" method="POST">
-     Age : <input type='text' name='age'>
+
+{{  dump(photo) }}
+
+{%  if photo %}
+<h4>{{ photo.realPath }}</h4>
+{% endif %}
+
+ <form action="{{ path('test_plain_form') }}" method="POST"  enctype="multipart/form-data">
+     Age : <input type='text' name='age' value="{{ age }}">
+     <br>
+     <br>
+     Photo : <input name="photo" type="file">
      <p>
         <button
             type="submit"

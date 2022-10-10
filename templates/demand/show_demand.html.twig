@@ -1,0 +1,23 @@
+{# templates/demand/show_demand.html.twig #}
+{% extends 'base.html.twig' %}
+
+{# 
+vars passed by controller : 
+    demand : demand object
+#}
+
+{% block body %}
+<h1>{{ demand.title }}</h1>
+
+{# 
+use ~ to concatenate
+#}
+{%  if demand.photo %}
+    <img src="{{ asset('uploads/' ~ demand.photo ) }}" alt="photo"/>
+{%  endif %}
+<p>{{ demand.text }}</p>
+
+<p>
+    <a href=""
+    
+{% endblock %}

@@ -24,7 +24,18 @@ class Demand
     private ?string $text = '';
     
     
+    #[ORM\Column]
     private ?int $deleted = 0;
+    
+    #[ORM\Column]
+    private ?string $date_created = null ;
+    
+    #[ORM\Column]
+    private ?string $date_modified = null ;
+
+    #[ORM\Column]
+    private ?string $photo = null ;
+    
     
     
     public function getId(): ?int
@@ -68,7 +79,7 @@ class Demand
         return $this;
     }
     
-       public function setDeleted(int $deleted): self
+    public function setDeleted(int $deleted): self
     {
         $this->deleted = $deleted;
 
@@ -79,5 +90,27 @@ class Demand
     {
         return $this->deleted;
     }
+
     
+    public function getDate_created()
+    {
+        return $this->date_created ;
+    }
+
+    public function getDate_modified()
+    {
+        return $this->date_modified ;
+    }
+    
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
 }

@@ -15,6 +15,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\Asset\UrlPackage;
+
 
 class TestController extends AbstractController
 {
@@ -37,6 +39,8 @@ class TestController extends AbstractController
         );
     }
     
+   
+    
      #[Route('/test/email')]
     public function email(MailerInterface $mailer): Response
     {
@@ -58,7 +62,7 @@ class TestController extends AbstractController
         // ...
     }
     
-    #[Route('/testuser', name: 'test_user')]
+    #[Route('/test_user', name: 'test_user')]
     public function testUser(ManagerRegistry $doctrine): Response
     {
         $entityManager = $doctrine->getManager();
@@ -77,17 +81,33 @@ class TestController extends AbstractController
         return new Response('Saved new user with id '.$user->getId());
     }
     
-    #[Route('/testplainform', name: 'test_plain_form')]
+    #[Route('/test_plain_form', name: 'test_plain_form')]
     public function testPlainHtmlForm(ManagerRegistry $doctrine, Request $request): Response {
         
+        $age = '' ;
+        $photo= null ;
         $submit = $request->request->get('submit', false); 
         if ($submit) {
             $age = $request->request->get('age', '');
-            return new Response('Age is ' . $age);
+            // manage photo
+            // https://symfonycasts.com/screencast/symfony-uploads/
+            $photo = $request->files->get('photo') ;
+            $filename = $photo->getClientOriginalName();
+            $newFilename = uniqid().'.'.$photo->guessExtension();
+            
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+
+            $photo->move(
+                $destination,
+                $newFilename
+            );
+           return new Response('File ' . $newFilename . ' saved in /public/uploads');
+            
         }
         
          return $this->render('test/test.html.twig', [
-
+             'age' => $age,
+             'photo' => $photo
         ]);
         
     }

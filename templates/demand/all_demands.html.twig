@@ -1,0 +1,23 @@
+{# emplate/demand/all_demands.html #}
+{% extends 'base.html.twig' %}
+
+{# 
+vars passed by controller : 
+    demands : array of demand entities
+#}
+
+{%  block body %}
+
+<h1>Toutes les demandes </h1>
+
+<table>
+{% for demand in demands %}
+    <tr>
+        <td>{{ demand.title}}</td>
+        <td>{{ demand.date_created|date("le d/m/Y") }}</td>
+        <td> <a href={{ app.request.baseUrl}}/demand/show/{{ demand.id }}>Voir la demande</a>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
