@@ -1,0 +1,12 @@
+Route names
+===========
+ #[Route('/', name: 'site-home')]
+#[Route('/login', name: 'app_login')]
+#[Route('/logout', name: 'app_logout')]
+#[Route('/register', name: 'app_register')]
+#[Route('/verify/email', name: 'app_verify_email')]
+#[Route('/', name: 'site-home')]
+#[Route('/demand/edit/{id}', name: 'edit_demand')]
+#[Route('/my_demands', name: 'my_demands')]
+#[Route('/all_demands', name: 'all_demands')]
+#[Route('/demand/show/{id}', name: 'show_demand')]

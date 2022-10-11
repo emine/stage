@@ -12,8 +12,8 @@ vars passed by controller :
 <table>
 {% for demand in demands %}
     <tr>
-        <td>{{ demand.title}}</td>
-        <td>{{ demand.date_created|date("le d/m/Y") }}</td>
+        <td><b>{{ demand.title}}</b></td>
+        <td><small>crée le {{ demand.date_created|date("d/m/Y") }}</small></td>
         <td> <a href={{ app.request.baseUrl}}/demand/show/{{ demand.id }}>Voir la demande</a>
     </tr>
 {% endfor %}

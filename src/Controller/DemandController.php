@@ -15,6 +15,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Demand;
+use App\Entity\Relation;
+use App\Entity\User;
+
 
 
 class DemandController extends AbstractController
@@ -23,12 +26,12 @@ class DemandController extends AbstractController
      * id = 0 => add demand
      * id > 0 => edit demand id
      */
-    #[Route('/demand/edit/{id}', name: 'demand_edit')]
+    #[Route('/demand/edit/{id}', name: 'edit_demand')]
     public function edit(ManagerRegistry $doctrine, Request $request, EntityManagerInterface $entityManager, int $id): Response {
         
         // scramble out if user is not connected 
         if ($this->getUser() === null) {
-            return $this->redirectToRoute('app_login'); 
+            return $this->redirectToRoute('site-home'); 
         }
         $isNew = $id == 0 ;
         if ($isNew) {
@@ -45,22 +48,21 @@ class DemandController extends AbstractController
         if ($submit) {
             $demand->setTitle($request->request->get('title', ''));
             $demand->setText($request->request->get('text', ''));
-            if ($isNew) {
-                 $demand->setUserId($this->getUser()->getId());
-                // manage photo
-                // https://symfonycasts.com/screencast/symfony-uploads/
-                $photo = $request->files->get('photo') ;
-                $filename = $photo->getClientOriginalName();
-                $newFilename = uniqid().'.'.$photo->guessExtension();
-                $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
-                $photo->move($destination, $newFilename);
-                $demand->setPhoto($newFilename) ;
-            }
+
+            $demand->setUserId($this->getUser()->getId());
+            // manage photo
+            // https://symfonycasts.com/screencast/symfony-uploads/
+            $photo = $request->files->get('photo') ;
+            $filename = $photo->getClientOriginalName();
+            $newFilename = uniqid().'.'.$photo->guessExtension();
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+            $photo->move($destination, $newFilename);
+            $demand->setPhoto($newFilename) ;
             
             $entityManager->persist($demand);
             $entityManager->flush();
             
-            return $this->redirectToRoute('my_demands'); 
+            return $this->redirectToRoute('show_demand', ['id' => $demand->getId()]); 
         }
         
         return $this->render('demand/demand.html.twig', [
@@ -76,8 +78,9 @@ class DemandController extends AbstractController
     {
         // scramble out if user is not connected 
         if ($this->getUser() === null) {
-            return $this->redirectToRoute('app_login'); 
+            return $this->redirectToRoute('site-home'); 
         }
+        
         return $this->render('demand/my_demands.html.twig', [
             'demands' => $doctrine->getRepository(Demand::class)->getMyDemands($this->getUser()),
         ]);
@@ -88,7 +91,7 @@ class DemandController extends AbstractController
     {
         // scramble out if user is not connected 
         if ($this->getUser() === null) {
-            return $this->redirectToRoute('app_login'); 
+            return $this->redirectToRoute('site-home'); 
         }
 
         return $this->render('demand/all_demands.html.twig', [
@@ -96,18 +99,34 @@ class DemandController extends AbstractController
         ]);
     }
     
-    #[Route('/demand/show/{id}', name: 'demand_show')]
+    #[Route('/demand/show/{id}', name: 'show_demand')]
     public function show(ManagerRegistry $doctrine, int $id): Response {
         
         // scramble out if user is not connected 
         if ($this->getUser() === null) {
-            return $this->redirectToRoute('app_login'); 
+            return $this->redirectToRoute('site-home'); 
         }
         $demand = $doctrine->getRepository(Demand::class)->find($id);
-
+        $user = $doctrine->getRepository(User::class)->find($demand->getUserId());
+        $relations = $doctrine->getRepository(Relation::class)->getAllRelations($demand);
+        // attach user to relations
+        // TOCONSIDER :I would not have to do this if I used foreign key !!!
+        $fullRelations = [] ;
+        $isRelated = false ;
+        foreach ($relations as $relation) {
+            $u = $doctrine->getRepository(User::class)->find($relation->getIdUser());
+            $relation->setUser($u) ; 
+            $fullRelations[] = $relation ;
+            if ($relation->getIdUser() == $this->getUser()->getId()) {
+                $isRelated = true ;
+            }
+        }
         if ($demand) {
             return $this->render('demand/show_demand.html.twig', [
                 'demand' => $demand,
+                'user' => $user,
+                'relations' => $fullRelations,
+                'isRelated' => $isRelated,
             ]);
         } else {
             throw $this->createNotFoundException(

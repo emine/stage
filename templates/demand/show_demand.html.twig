@@ -1,23 +1,59 @@
 {# templates/demand/show_demand.html.twig #}
 {% extends 'base.html.twig' %}
 
+
 {# 
 vars passed by controller : 
     demand : demand object
+    user : user object (demandeur)
+    relations : array the relation objects concerning this demand 
+    isRelated : bool whether connected user is related to demand
 #}
 
 {% block body %}
-<h1>{{ demand.title }}</h1>
-
-{# 
-use ~ to concatenate
+{#   
+{{  dump(relations) }}
+{{  dump(isRelated) }}
+{{  dump(user) }}
+{{  dump(app.user) }}
 #}
-{%  if demand.photo %}
-    <img src="{{ asset('uploads/' ~ demand.photo ) }}" alt="photo"/>
-{%  endif %}
-<p>{{ demand.text }}</p>
 
-<p>
-    <a href=""
+
+
+    <h1>{{ demand.title }}</h1>
+
+    {# 
+    use ~ to concatenate
+    #}
+    {%  if demand.photo %}
+        <img src="{{ asset('uploads/' ~ demand.photo ) }}" alt="photo"/>
+    {%  endif %}
+    <p>{{ demand.text }}</p>
+
+
+    {#
+    si le demandeur est l'utilisateur connecté alors il peut modifier cette demande
+    sinon mise en relation
+    #}
+
+    <p>
+    {%  if user.id == app.user.id %}
+        {% for relation in relations %}   
+            {% if relation.user.id  != app.user.id %}
+                <p><big><b> {{ relation.user.pseudo }} {{ relation.user.email }} vous a contacté pour cette demande</b></big> </p> 
+            {% endif  %}
+        {% endfor %}
+        {%  if relations|length <= 1 %} 
+            <a href="{{ path('edit_demand', {'id' : demand.id})}}"><button>Modifier cette demande</button></a> 
+        {% endif %}
+    {%  else  %}
+        {% if isRelated == true %}
+            <big><b>Vous avez contacté le demandeur {{user.pseudo}} {{ user.email }}</b></big>
+        {%  else %}    
+            <a href="{{ path('create_relation', {'id_demand' : demand.id}) }}">
+                <button>Contacter le demandeur {{user.pseudo}} {{ user.email }}</button>
+            </a>  
+        {% endif %}    
+    {% endif %}
     
 {% endblock %}

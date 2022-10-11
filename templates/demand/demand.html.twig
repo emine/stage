@@ -16,7 +16,7 @@ vars passed by controller :
     {% else %}
         <h3>Modification de la demande</h3>
     {% endif %}    
-    <form action="{{ path('demand_edit', {'id' : id}) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ path('edit_demand', {'id' : id}) }}" method="POST" enctype="multipart/form-data">
          Titre : <input type='text' name='title'  value='{{ title }}'>
          <p>
              Texte : <textarea rows=5 name="text" >{{text}}</textarea>

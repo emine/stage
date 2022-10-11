@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Demand;
+use App\Entity\User;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -80,7 +82,6 @@ class DemandRepository extends ServiceEntityRepository
 
     }
     
-    /////////////////////////////////////////////////////////////////////////
     public function getMyDemands($user) {
         // automatically knows to select Demand
         // the "d" is an alias you'll use in the rest of the query
@@ -96,4 +97,4 @@ class DemandRepository extends ServiceEntityRepository
     }
     
     
-        }
+}
