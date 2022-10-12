@@ -53,7 +53,7 @@ class DemandController extends AbstractController
             // manage photo
             // https://symfonycasts.com/screencast/symfony-uploads/
             $photo = $request->files->get('photo') ;
-            $filename = $photo->getClientOriginalName();
+          //  $filename = $photo->getClientOriginalName();
             $newFilename = uniqid().'.'.$photo->guessExtension();
             $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
             $photo->move($destination, $newFilename);
