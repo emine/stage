@@ -96,10 +96,23 @@ class Demand
     {
         return $this->date_created ;
     }
+    
+    public function setDate_created($date): self
+    {
+        $this->date_created = $date;
+
+        return $this;
+    }
 
     public function getDate_modified()
     {
         return $this->date_modified ;
+    }
+
+    public function setDate_modified($date): self
+    {
+        $this->date_modified = $date;
+        return $this;
     }
     
     public function getPhoto(): ?string

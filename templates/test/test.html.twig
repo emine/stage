@@ -1,13 +1,21 @@
 {# empty Twig template #}
 
-{{  dump(photo) }}
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
 
 {%  if photo %}
 <h4>{{ photo.realPath }}</h4>
 {% endif %}
 
  <form action="{{ path('test_plain_form') }}" method="POST"  enctype="multipart/form-data">
-     Age : <input type='text' name='age' value="{{ age }}">
+     <div class="mb-3">
+        <label  class="form-label">Age</label>
+        <input type="text" name='age' value="{{ age}}" class="form-control" placeholder="age">
+    </div>
+
      <br>
      <br>
      Photo : <input name="photo" type="file">
@@ -18,3 +26,5 @@
             value='submit'
         >Enregistrer</button>
 </form>
+     
+{% endblock %}     

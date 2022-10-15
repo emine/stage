@@ -10,25 +10,39 @@ vars passed by controller :
 #}
 
 {% block body %}
-    
+    <div class="container-sm">
     {% if id == 0 %}
         <h3>Nouvelle demande</h3>
     {% else %}
         <h3>Modification de la demande</h3>
     {% endif %}    
     <form action="{{ path('edit_demand', {'id' : id}) }}" method="POST" enctype="multipart/form-data">
-         Titre : <input type='text' name='title'  value='{{ title }}'>
-         <p>
-             Texte : <textarea rows=5 name="text" >{{text}}</textarea>
-        <p>
-             Photo : <input type="file" name="photo">
-        <p>     
+        <div class="mb-3">
+            <label for="title" class="form-label">Titre</label>
+            <input type='text' name='title' class="form-control" value='{{ title }}'>
+        </div>
+        
+        <div class="mb-3">
+            <label for="text" class="form-label">Texte</label>
+            <textarea rows=5 name="text" class="form-control">{{text}}</textarea>
+        </div>
+        
+         <div class="mb-3">
+            <label for="photo" class="form-label">Photo</label>
+            <input type="file" name="photo" class="form-control">
+        </div>
+        
+        <div class="mb-3">
             <button
                 type="submit"
                 name="submit"
                 value='submit'
-            >Enregistrer</button>
+                class="btn btn-primary"
+            >Enregistrer
+            </button>
+        </div>
     </form>
+    </div>         
 {% endblock %}
      
      

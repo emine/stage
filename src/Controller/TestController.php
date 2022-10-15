@@ -16,7 +16,14 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Asset\UrlPackage;
+use App\Entity\User;
+use App\Entity\Orders;
+use App\Entity\OrderLines;
 
+
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class TestController extends AbstractController
 {
@@ -111,6 +118,73 @@ class TestController extends AbstractController
         ]);
         
     }
+    
+    #[Route('/test_orders', name: 'test_orders')]
+    public function testOrders(ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+
+        $o = new Orders();
+        $o->setName('Tonton');
+        
+        // tell Doctrine you want to (eventually) save  (no queries yet)
+        $entityManager->persist($o);
+
+        // actually executes the queries (i.e. the INSERT query)
+        $entityManager->flush();
+        
+        $l = new OrderLines ;
+        $l->setDescription('camember') ;
+        $l->setPrice(53) ;
+        $l->setOrders($o) ;
+        $o->addOrderLine($l) ;
+        $entityManager->persist($l);
+        $entityManager->flush();
+        
+        $l = new OrderLines ;
+        $l->setDescription('boursin') ;
+        $l->setPrice(34) ;
+        $l->setOrders($o) ;
+        $o->addOrderLine($l) ;
+        $entityManager->persist($l);
+        $entityManager->flush();
+        
+        $l = new OrderLines ;
+        $l->setDescription('EMENTAL') ;
+        $l->setPrice(523) ;
+        $l->setOrders($o) ;
+        $o->addOrderLine($l) ;
+        $entityManager->persist($l);
+        $entityManager->flush();
+        
+        $out = '' ;
+        $col = $o->getOrderLines() ;
+        foreach ($col->getValues() as $line) {
+            $out .= $line->getDescription() . ' ' . $line->getPrice() . '<br>' ; 
+        }
+
+        return new Response($out) ;
+    }
+    
+    #[Route('/test_form', name: 'test_form')]
+    public function testForm(Request $request): Response
+    {
+        // creates a task object and initializes some data for this example
+        $o = new Orders();
+        $o->setName('Tonton');
+
+        $form = $this->createFormBuilder($o)
+            ->add('name', TextType::class)
+            ->add('save', SubmitType::class, ['label' => 'Sauvegarder'])
+            ->getForm();
+        
+        return $this->renderForm('test/test_form.html.twig', [
+            'form' => $form,
+        ]);
+
+        // ...
+    }
+    
     
     
 }

@@ -48,17 +48,22 @@ class DemandController extends AbstractController
         if ($submit) {
             $demand->setTitle($request->request->get('title', ''));
             $demand->setText($request->request->get('text', ''));
-
             $demand->setUserId($this->getUser()->getId());
+            if ($isNew) {
+                $demand->setDate_created(date("Y-m-d")) ;
+            } 
+            $demand->setDate_modified(date("Y-m-d")) ;
+            
             // manage photo
             // https://symfonycasts.com/screencast/symfony-uploads/
             $photo = $request->files->get('photo') ;
-          //  $filename = $photo->getClientOriginalName();
-            $newFilename = uniqid().'.'.$photo->guessExtension();
-            $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
-            $photo->move($destination, $newFilename);
-            $demand->setPhoto($newFilename) ;
-            
+            if ($photo) {
+            //  $filename = $photo->getClientOriginalName();
+              $newFilename = uniqid().'.'.$photo->guessExtension();
+              $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+              $photo->move($destination, $newFilename);
+              $demand->setPhoto($newFilename) ;
+            }            
             $entityManager->persist($demand);
             $entityManager->flush();
             
