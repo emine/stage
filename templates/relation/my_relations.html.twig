@@ -1,0 +1,49 @@
+{# templates/relation/my_relations.html.twig #}
+{#
+{{   dump(sentRelations) }}
+{{  dump(receivedRelations) }}
+ 
+vars passed by controller : 
+    sentRelations : array 
+    receivedRelations : array 
+
+#}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h2>Contacts envoyés </h2>
+
+<table class="table">
+{% for demand in sentRelations %}
+    <tr>
+        <td width="150px"><img src="{{ asset('uploads/' ~ demand.photo ) }}" class="card-img-top" alt="photo"/></td>
+        <td><b>{{ demand.title}}</b><br>
+            <small>crée le {{ demand.date_created|date("d/m/Y") }}</small><br>
+            
+        </td>
+        <td> <big><b>Envoyé à {{ demand.email }}</b></big>
+        <td> <a class="btn btn-outline-primary" href="{{ path('show_demand', {id : demand.id}) }}">Voir</a> </td>
+    </tr>
+{% endfor %}
+</table> 
+
+<h2>Contacts reçus </h2>
+
+<table class="table">
+{% for demand in receivedRelations %}
+    <tr>
+        <td width="150px"><img src="{{ asset('uploads/' ~ demand.photo ) }}" class="card-img-top" alt="photo"/></td>
+        <td><b>{{ demand.title}}</b><br>
+            <small>crée le {{ demand.date_created|date("d/m/Y") }}</small><br>
+            
+        </td>
+        <td> <big><b>Reçu de {{ demand.email }}</b></big>
+        <td> <a class="btn btn-outline-primary" href="{{ path('show_demand', {id : demand.id}) }}">Voir</a> </td>
+    </tr>
+{% endfor %}
+</table> 
+
+{% endblock %}
+
+
+

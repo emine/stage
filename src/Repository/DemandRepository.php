@@ -68,12 +68,10 @@ class DemandRepository extends ServiceEntityRepository
 
 //////////////////////////////////////////////////////////////////////////////////
     
-    public function getAllDemands($user) {
+    public function getAllDemands() {
         // automatically knows to select Demand
         // the "d" is an alias you'll use in the rest of the query
         $qb = $this->createQueryBuilder('d')
-               ->where('d.user_id != :id')
-               ->setParameter('id', $user->getId())
                ->orderBy('d.date_created', 'DESC');
 
         $query = $qb->getQuery();

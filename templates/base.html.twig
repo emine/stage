@@ -18,13 +18,9 @@
         {% endblock %}
     </head>
     <body>
-        {% if app.user  %} 
-            <a href={{ path('site-home')}}>HOME</a> 
-            <div style="display:inline-block; float: right">{{ app.user.email }} <a href={{ path('app_logout')}}>Déconnexion</a></div>    
-            <hr>
-        {%  else  %}
-            <div style="text-align:center"><h1>MISE EN RELATION</h1></div>
-        {% endif %}
-        {% block body %}{% endblock %}
+        {% include "site/nav.html.twig" %}
+        <div class="container-sm">        
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>

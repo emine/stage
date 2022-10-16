@@ -7,7 +7,27 @@ vars passed by controller :
 #}
 
 {%  block body %}
+    <h1 class="text-center">Toutes les demandes</h1>
+<div class="row">
+{% for demand in demands %}
+    <div class="col-md-4">
+        <div class="card mb-3" style="width: 300px">
+            {# 
+                use ~ to concatenate
+            #}
+            <img src="{{ asset('uploads/' ~ demand.photo ) }}" class="card-img-top" alt="photo"/>
+            <div class="card-body">
+              <h5 class="card-title">{{ demand.title}}</h5>
+               <h6 class="card-subtitle mb-2 text-muted">créée le {{ demand.date_created|date("d/m/Y") }}</h6>
+              <a href="{{ app.request.baseUrl}}/demand/show/{{ demand.id }}" class="btn btn-outline-primary">Voir</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
 
+    
+{#
 <h1>Toutes les demandes </h1>
 
 <table>
@@ -15,9 +35,9 @@ vars passed by controller :
     <tr>
         <td><b>{{ demand.title}}</b></td>
         <td><small>créée le {{ demand.date_created|date("d/m/Y") }}</small></td>
-        <td> <a href={{ app.request.baseUrl}}/demand/show/{{ demand.id }}>Voir la demande</a>
+        <td> <a href="{{ app.request.baseUrl}}/demand/show/{{ demand.id }}">Voir la demande</a>
     </tr>
 {% endfor %}
 </table>
-
+#}
 {% endblock %}

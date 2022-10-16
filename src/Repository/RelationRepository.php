@@ -78,4 +78,43 @@ class RelationRepository extends ServiceEntityRepository
                     ->getResult();
     }    
     
+    public function sentRelations($user) {
+        // contacts made by user
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT u.email, d.id, d.title, d.photo, d.date_created 
+            FROM relation r, demand d, user u 
+            WHERE d.id = r.id_demand 
+            AND r.id_user = :id
+            AND u.id = d.user_id 
+            ORDER BY d.date_modified DESC;
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $user->getId()]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();    }
+     
+    public function receivedRelations($user) {
+        // contacts made to user demands
+       $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT u.email, d.id, d.title, d.photo, d.date_created 
+            FROM user u, relation r LEFT JOIN demand d ON d.id = r.id_demand
+            WHERE d.user_id = :id
+            AND u.id = r.id_user
+            ORDER BY d.date_modified DESC
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $user->getId()]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+    
+    
+    
+    
 }

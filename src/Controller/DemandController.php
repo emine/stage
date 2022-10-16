@@ -63,7 +63,9 @@ class DemandController extends AbstractController
               $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
               $photo->move($destination, $newFilename);
               $demand->setPhoto($newFilename) ;
-            }            
+            } else {
+                $demand->setPhoto('placeholder.png') ;
+            }           
             $entityManager->persist($demand);
             $entityManager->flush();
             
@@ -94,11 +96,6 @@ class DemandController extends AbstractController
     #[Route('/all_demands', name: 'all_demands')]
     public function allDemands(ManagerRegistry $doctrine): Response
     {
-        // scramble out if user is not connected 
-        if ($this->getUser() === null) {
-            return $this->redirectToRoute('site-home'); 
-        }
-
         return $this->render('demand/all_demands.html.twig', [
             'demands' => $doctrine->getRepository(Demand::class)->getAllDemands($this->getUser()),
         ]);

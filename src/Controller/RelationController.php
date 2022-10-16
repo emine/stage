@@ -45,5 +45,27 @@ class RelationController extends AbstractController
             );
         }    
     }
+    
+    #[Route('/relation/relations', name: 'my_relations')]
+    public function my_relations(ManagerRegistry $doctrine, EntityManagerInterface $entityManager): Response {
+          // scramble out if user is not connected 
+        if ($this->getUser() === null) {
+            return $this->redirectToRoute('site-home'); 
+        }
+        // relations faites
+        $sentRelations = $doctrine->getRepository(Relation::class)->sentRelations($this->getUser());
+        
+        // relations recues
+        $receivedRelations = $doctrine->getRepository(Relation::class)->receivedRelations($this->getUser());
+        
+        return $this->render('relation/my_relations.html.twig', [
+                'sentRelations' => $sentRelations,
+                'receivedRelations' => $receivedRelations,
+        ]);
+        
+        
+    }
+    
+    
 }
   

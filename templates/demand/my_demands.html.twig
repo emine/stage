@@ -9,12 +9,14 @@ vars passed by controller :
 {% block body %}
 <h1>Mes demandes </h1>
 
-<table>
+<table class="table">
 {% for demand in demands %}
     <tr>
-        <td><b>{{ demand.title}}</b></td>
-        <td><small>crée le {{ demand.date_created|date("d/m/Y") }}</small></td>
-        <td> <a href={{ app.request.baseUrl}}/demand/show/{{ demand.id }}>Voir la demande</a>
+        <td width="150px"><img src="{{ asset('uploads/' ~ demand.photo ) }}" class="card-img-top" alt="photo"/></td>
+        <td><b>{{ demand.title}}</b><br>
+            <small>crée le {{ demand.date_created|date("d/m/Y") }}</small>
+        </td>
+        <td> <a class="btn btn-outline-primary" href={{ app.request.baseUrl}}/demand/show/{{ demand.id }}>Gérer</a>
     </tr>
 {% endfor %}
 </table> 

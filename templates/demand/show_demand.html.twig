@@ -10,7 +10,6 @@ vars passed by controller :
     isRelated : bool whether connected user is related to demand
 #}
 
-{% block body %}
 {#   
 {{  dump(relations) }}
 {{  dump(isRelated) }}
@@ -18,42 +17,45 @@ vars passed by controller :
 {{  dump(app.user) }}
 #}
 
-
-
-    <h1>{{ demand.title }}</h1>
-
-    {# 
-    use ~ to concatenate
-    #}
-    {%  if demand.photo %}
-        <img src="{{ asset('uploads/' ~ demand.photo ) }}" alt="photo"/>
-    {%  endif %}
-    <p>{{ demand.text }}</p>
-
-
-    {#
+{#
     si le demandeur est l'utilisateur connecté alors il peut modifier cette demande
     sinon mise en relation
-    #}
+#}
 
-    <p>
+{% block body %}
+
+<div class="card" style="width: 50%">
+{# 
+    use ~ to concatenate
+#}
+  <img src="{{ asset('uploads/' ~ demand.photo ) }}" class="card-img-top" alt="photo"/>
+  <div class="card-body">
+    <h5 class="card-title">{{ demand.title }}</h5>
+    <p class="card-text">{{ demand.text }}</p>
+    
     {%  if user.id == app.user.id %}
         {% for relation in relations %}   
             {% if relation.user.id  != app.user.id %}
-                <p><big><b> {{ relation.user.pseudo }} {{ relation.user.email }} vous a contacté pour cette demande</b></big> </p> 
+                <p><big><b> <a class= "card-link" href="mailto://{{ relation.user.email }}"> 
+                        {{ relation.user.pseudo }} {{ relation.user.email }}</a> vous a contacté pour cette demande
+                    </b></big></p> 
             {% endif  %}
         {% endfor %}
         {%  if relations|length <= 1 %} 
-            <a href="{{ path('edit_demand', {'id' : demand.id})}}"><button>Modifier cette demande</button></a> 
+            <a href="{{ path('edit_demand', {'id' : demand.id})}}" class="card-link">
+                <button class='btn btn-primary'>Modifier cette demande</button>
+            </a> 
         {% endif %}
     {%  else  %}
         {% if isRelated == true %}
-            <big><b>Vous avez contacté le demandeur {{user.pseudo}} {{ user.email }}</b></big>
+            <big><b>Vous avez contacté le demandeur <a  href="mailto://{{ user.email }}">{{user.pseudo}} {{ user.email }}</a></b></big>
         {%  else %}    
-            <a href="{{ path('create_relation', {'id_demand' : demand.id}) }}">
-                <button>Contacter le demandeur {{user.pseudo}} {{ user.email }}</button>
+            <a class='btn btn-outline-primary' href="{{ path('create_relation', {'id_demand' : demand.id}) }}" class="card-link">
+               Contacter le demandeur {{user.pseudo}} {{ user.email }}
             </a>  
         {% endif %}    
     {% endif %}
     
+  </div>
+</div>
 {% endblock %}
