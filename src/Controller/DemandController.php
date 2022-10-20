@@ -104,31 +104,29 @@ class DemandController extends AbstractController
     #[Route('/demand/show/{id}', name: 'show_demand')]
     public function show(ManagerRegistry $doctrine, int $id): Response {
         
-        // scramble out if user is not connected 
-        if ($this->getUser() === null) {
-            return $this->redirectToRoute('site-home'); 
-        }
         $demand = $doctrine->getRepository(Demand::class)->find($id);
-        $user = $doctrine->getRepository(User::class)->find($demand->getUserId());
-        $relations = $doctrine->getRepository(Relation::class)->getAllRelations($demand);
-        // attach user to relations
-        // TOCONSIDER :I would not have to do this if I used foreign key !!!
-        $fullRelations = [] ;
-        $isRelated = false ;
-        foreach ($relations as $relation) {
-            $u = $doctrine->getRepository(User::class)->find($relation->getIdUser());
-            $relation->setUser($u) ; 
-            $fullRelations[] = $relation ;
-            if ($relation->getIdUser() == $this->getUser()->getId()) {
-                $isRelated = true ;
+        if ($this->getUser()) {
+            $user = $doctrine->getRepository(User::class)->find($demand->getUserId());
+            $relations = $doctrine->getRepository(Relation::class)->getAllRelations($demand);
+            // attach user to relations
+            // TOCONSIDER :I would not have to do this if I used foreign key !!!
+            $fullRelations = [] ;
+            $isRelated = false ;
+            foreach ($relations as $relation) {
+                $u = $doctrine->getRepository(User::class)->find($relation->getIdUser());
+                $relation->setUser($u) ; 
+                $fullRelations[] = $relation ;
+                if ($relation->getIdUser() == $this->getUser()->getId()) {
+                    $isRelated = true ;
+                }
             }
-        }
+        }    
         if ($demand) {
             return $this->render('demand/show_demand.html.twig', [
                 'demand' => $demand,
-                'user' => $user,
-                'relations' => $fullRelations,
-                'isRelated' => $isRelated,
+                'user' => $user ?? null,
+                'relations' => $fullRelations ?? [],
+                'isRelated' => $isRelated ?? false,
             ]);
         } else {
             throw $this->createNotFoundException(
