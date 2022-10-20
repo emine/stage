@@ -27,12 +27,12 @@ CREATE TABLE `demand` (
   `user_id` int(11) NOT NULL,
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deleted` tinyint(4) NOT NULL DEFAULT 0,
-  `date_modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `photo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted` int(11) NOT NULL,
+  `date_modified` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_created` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `photo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `demand` (
 
 LOCK TABLES `demand` WRITE;
 /*!40000 ALTER TABLE `demand` DISABLE KEYS */;
-INSERT INTO `demand` VALUES (1,12,'cherche hamac','bla bla bla bla bla bla bla bla bla bla bla bla ',0,'2022-10-07 17:59:43','2022-10-07 17:59:43',NULL),(2,12,'cherche tres beau hamac','bla bla bla bla bla bla bla bla bla bla bla bla ',0,'2022-10-11 13:27:37','2022-10-07 18:20:37','63456f498a60b.jpg'),(3,12,'cherche bassiste','requis:\r\n- ceci\r\n-cela\r\n',0,'2022-10-10 14:32:53','2022-10-10 14:32:53',NULL),(4,12,'baby sitter','sasd asd as asd asd asd asasdsasd asd as asd asd asd asasdsasd asd as asd asd asd asasd',0,'2022-10-10 18:01:39','2022-10-10 18:01:39','63445e033539d.jpg'),(5,12,'cherche nounou','xzc  zxc zxc zxc zxc zxc xzc xzc xzc zxc',0,'2022-10-10 18:02:29','2022-10-10 18:02:29','63445e3576424.jpg'),(6,12,'je veux du cuir','du dur du dur du dur du dur du dur du dur du dur du dur ',0,'2022-10-10 18:19:04','2022-10-10 18:19:04','634462188f575.jpg'),(7,13,'nounou','asas asas as as asas as as as as asas asas as as asas as as as as asas asas as as asas as as as as ',0,'2022-10-11 17:43:06','2022-10-10 19:41:31','6345ab2a82409.jpg');
+INSERT INTO `demand` VALUES (1,12,'cherche hamac','bla bla bla bla bla bla bla bla bla bla bla bla ',0,'2022-10-12 16:11:00','2022-10-07 19:59:43','63456f498a60b.jpg'),(2,12,'cherche tres beau hamac','bla bla bla bla bla bla bla bla bla bla bla bla ',0,'2022-10-11 15:27:37','2022-10-07 20:20:37','63456f498a60b.jpg'),(3,12,'cherche bassiste','requis:\r\n- ceci\r\n-cela\r\n',0,'2022-10-12 16:11:00','2022-10-10 16:32:53','63456f498a60b.jpg'),(4,12,'baby sitter','sasd asd as asd asd asd asasdsasd asd as asd asd asd asasdsasd asd as asd asd asd asasd',0,'2022-10-12 11:04:37','2022-10-10 20:01:39','634683255a0ed.jpg'),(5,12,'cherche nounou','xzc  zxc zxc zxc zxc zxc xzc xzc xzc zxc',0,'2022-10-10 20:02:29','2022-10-10 20:02:29','63445e3576424.jpg'),(6,12,'je veux du cuir','du dur du dur du dur du dur du dur du dur du dur du dur ',0,'2022-10-10 20:19:04','2022-10-10 20:19:04','634462188f575.jpg'),(7,13,'nounou','asas asas as as asas as as as as asas asas as as asas as as as as asas asas as as asas as as as as ',0,'2022-10-11 19:43:06','2022-10-10 21:41:31','6345ab2a82409.jpg'),(8,14,'cherche duffelcoat','cherche duffelcoat cherche duffelcoat cherche duffelcoat cherche duffelcoat ',0,'2022-10-12 14:50:22','2022-10-12 14:50:06','6346b80e3d1b3.jpg'),(9,12,'du cuir','du dur',0,'2022-10-15','2022-10-15','634ac65522bd7.jpg'),(10,12,'cherche tonton ','cherche tonton cherche tonton cherche tonton cherche tonton cherche tonton cherche tonton cherche tonton cherche tonton cherche tonton ',0,'2022-10-16','2022-10-16','placeholder.png');
 /*!40000 ALTER TABLE `demand` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20221005174804','2022-10-05 19:50:22',93),('DoctrineMigrations\\Version20221006075947','2022-10-06 10:01:36',38),('DoctrineMigrations\\Version20221006080405','2022-10-06 10:04:39',70),('DoctrineMigrations\\Version20221006084114','2022-10-06 10:42:38',16),('DoctrineMigrations\\Version20221007170924','2022-10-07 19:10:06',60);
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20221005174804','2022-10-05 19:50:22',93),('DoctrineMigrations\\Version20221006075947','2022-10-06 10:01:36',38),('DoctrineMigrations\\Version20221006080405','2022-10-06 10:04:39',70),('DoctrineMigrations\\Version20221006084114','2022-10-06 10:42:38',16),('DoctrineMigrations\\Version20221007170924','2022-10-07 19:10:06',60),('DoctrineMigrations\\Version20221011141353','2022-10-12 16:12:34',98),('DoctrineMigrations\\Version20221012132045','2022-10-12 16:12:34',102),('DoctrineMigrations\\Version20221012145011','2022-10-12 16:51:57',439);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,6 +103,56 @@ INSERT INTO `messenger_messages` VALUES (1,'O:36:\\\"Symfony\\\\Component\\\\Mes
 UNLOCK TABLES;
 
 --
+-- Table structure for table `order_lines`
+--
+
+DROP TABLE IF EXISTS `order_lines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_lines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orders_id` int(11) NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_CC9FF86BCFFE9AD6` (`orders_id`),
+  CONSTRAINT `FK_CC9FF86BCFFE9AD6` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_lines`
+--
+
+LOCK TABLES `order_lines` WRITE;
+/*!40000 ALTER TABLE `order_lines` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_lines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `relation`
 --
 
@@ -114,7 +164,7 @@ CREATE TABLE `relation` (
   `id_demand` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +173,7 @@ CREATE TABLE `relation` (
 
 LOCK TABLES `relation` WRITE;
 /*!40000 ALTER TABLE `relation` DISABLE KEYS */;
-INSERT INTO `relation` VALUES (1,6,13),(2,7,13),(3,6,14),(4,6,15),(5,7,12),(6,7,14);
+INSERT INTO `relation` VALUES (1,6,13),(2,7,13),(3,6,14),(4,6,15),(5,7,12),(6,7,14),(7,9,13),(8,8,12);
 /*!40000 ALTER TABLE `relation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,4 +216,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-11 20:30:51
+-- Dump completed on 2022-10-20 17:35:16
