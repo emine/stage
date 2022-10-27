@@ -18,6 +18,7 @@ use App\Entity\Demand;
 use App\Entity\Relation;
 use App\Entity\User;
 
+use Symfony\Component\HttpFoundation\JsonResponse ;
 
 
 class DemandController extends AbstractController
@@ -103,6 +104,10 @@ class DemandController extends AbstractController
     
     #[Route('/demand/show/{id}', name: 'show_demand')]
     public function show(ManagerRegistry $doctrine, int $id): Response {
+
+        $fullRelations = [] ;
+        $isRelated = false ;
+        $currRelation = null ;
         
         $demand = $doctrine->getRepository(Demand::class)->find($id);
         if ($this->getUser()) {
@@ -110,16 +115,17 @@ class DemandController extends AbstractController
             $relations = $doctrine->getRepository(Relation::class)->getAllRelations($demand);
             // attach user to relations
             // TOCONSIDER :I would not have to do this if I used foreign key !!!
-            $fullRelations = [] ;
-            $isRelated = false ;
             foreach ($relations as $relation) {
                 $u = $doctrine->getRepository(User::class)->find($relation->getIdUser());
                 $relation->setUser($u) ; 
                 $fullRelations[] = $relation ;
                 if ($relation->getIdUser() == $this->getUser()->getId()) {
                     $isRelated = true ;
+                    $currRelation = $relation ;
                 }
             }
+        } else {
+            
         }    
         if ($demand) {
             return $this->render('demand/show_demand.html.twig', [
@@ -127,6 +133,7 @@ class DemandController extends AbstractController
                 'user' => $user ?? null,
                 'relations' => $fullRelations ?? [],
                 'isRelated' => $isRelated ?? false,
+                'currRelation' => $currRelation,
             ]);
         } else {
             throw $this->createNotFoundException(

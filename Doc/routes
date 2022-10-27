@@ -10,3 +10,8 @@ Route names
 #[Route('/my_demands', name: 'my_demands')]
 #[Route('/all_demands', name: 'all_demands')]
 #[Route('/demand/show/{id}', name: 'show_demand')]
+
+#[Route('/relation/create/{id_demand}', name: 'create_relation')]
+#[Route('/relation/relations', name: 'my_relations')]
+#[Route('/relation/conversation/{id_relation}', name: 'conversation')]
+    

@@ -4,6 +4,35 @@ body {
 }
 */
 
+.conditional {
+    display: none ;
+}
+
+.ej-card-left {
+    background-color: #F5F5F5 !important;
+    border-radius: 25px !important;
+    padding: 1%;
+    width:50% !important;
+    margin-top: 2%;
+}
+
+.ej-card-right {
+    background-color: lightblue !important;    
+    margin-left: 25%;
+    border-radius: 25px !important;
+    padding: 1%;
+    width:50% !important;
+    margin-top: 2%;
+}
+
+
+
 $primary: darkred;
 
 @import "~bootstrap/scss/bootstrap";
+
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+@import '~@fortawesome/fontawesome-free/css/regular';
+@import '~@fortawesome/fontawesome-free/css/solid';
+@import '~@fortawesome/fontawesome-free/css/brands';

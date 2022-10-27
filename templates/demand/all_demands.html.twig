@@ -6,8 +6,17 @@ vars passed by controller :
     demands : array of demand entities
 #}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('all_demands') }}
+{% endblock %}
+
+
 {%  block body %}
-    <h1 class="text-center">Toutes les demandes</h1>
+
+<h1 class="text-center">Toutes les demandes</h1>
+<input class="form-control mb-3" id="search-all-demands" placeholder="Rechercher">
+    
 <div class="row">
 {% for demand in demands %}
     <div class="col-md-4">
@@ -26,18 +35,4 @@ vars passed by controller :
 {% endfor %}
 </div>
 
-    
-{#
-<h1>Toutes les demandes </h1>
-
-<table>
-{% for demand in demands %}
-    <tr>
-        <td><b>{{ demand.title}}</b></td>
-        <td><small>créée le {{ demand.date_created|date("d/m/Y") }}</small></td>
-        <td> <a href="{{ app.request.baseUrl}}/demand/show/{{ demand.id }}">Voir la demande</a>
-    </tr>
-{% endfor %}
-</table>
-#}
 {% endblock %}

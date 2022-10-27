@@ -1,0 +1,33 @@
+{# 
+    messages array of object
+    demand object
+    user object
+#}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2> Conversation concernant la demande <b>"{{ demand.title }}"</b></h2>
+    <h3>avec {{ user.pseudo }} {{ user.email }}</h3>
+    {% for message in messages %}
+        <div class="card {{message.idUser.id == app.user.id ? 'ej-card-left' : 'ej-card-right'}}">
+            <p class="card-subtitle mb-2 text-muted"> le {{  message.dateCreated | date("d/m/Y h:i")}}
+            {%  if message.idUser.id == app.user.id %}
+                j'ai écrit 
+            {% else %}
+                {{ message.idUser.pseudo }} {{ message.idUser.email }} a écrit 
+            {%  endif %}    
+            </p>
+            <p class="card-text"> {{ message.message }} </p>
+        </div>    
+
+        
+    {%  endfor %}    
+    <div class="bg-light">
+        <form method="POST" enctype="multipart/form-data">
+            <textarea style="width:50%; margin-top:5%" class="form-control" name="message" placeholder="votre message" required></textarea>
+            <input type="submit" name="submit" class='btn btn-primary' value="Envoyer"</button>
+         </form>
+    </div>    
+    
+{% endblock %}

@@ -5,6 +5,7 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
+
 const $ = require('jquery');
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
@@ -16,3 +17,12 @@ import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
+
+import all_demands from './all_demands';
+
+/*
+$(document).ready(function() {
+     $('body').prepend('<h1>YOYO</h1>');
+});
+ * 
+ */

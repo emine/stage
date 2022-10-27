@@ -83,7 +83,7 @@ class RelationRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT u.email, d.id, d.title, d.photo, d.date_created 
+            SELECT u.email, d.id, d.title, d.photo, d.date_created, r.id as id_relation 
             FROM relation r, demand d, user u 
             WHERE d.id = r.id_demand 
             AND r.id_user = :id
@@ -101,7 +101,7 @@ class RelationRepository extends ServiceEntityRepository
        $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT u.email, d.id, d.title, d.photo, d.date_created 
+            SELECT u.email, d.id, d.title, d.photo, d.date_created , r.id as id_relation 
             FROM user u, relation r LEFT JOIN demand d ON d.id = r.id_demand
             WHERE d.user_id = :id
             AND u.id = r.id_user

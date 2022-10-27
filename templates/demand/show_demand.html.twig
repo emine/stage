@@ -8,6 +8,7 @@ vars passed by controller :
     user : user object (demandeur)
     relations : array the relation objects concerning this demand 
     isRelated : bool whether connected user is related to demand
+    currRelation : relation of connected user if isRelated 
 #}
 
 {#   
@@ -21,6 +22,12 @@ vars passed by controller :
     si le demandeur est l'utilisateur connecté alors il peut modifier cette demande
     sinon mise en relation
 #}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('show_demand') }}
+{% endblock %}
+
 
 {% block body %}
 
@@ -36,9 +43,10 @@ vars passed by controller :
         {%  if user.id == app.user.id %}
             {% for relation in relations %}   
                 {% if relation.user.id  != app.user.id %}
-                    <p><big><b> <a class= "card-link" href="mailto://{{ relation.user.email }}"> 
-                            {{ relation.user.pseudo }} {{ relation.user.email }}</a> vous a contacté pour cette demande
-                        </b></big></p> 
+                    <p> <a class= "btn btn-primary" href="{{ path('conversation', {'id_relation' : relation.id}) }}"> 
+                            {{ relation.user.pseudo }} {{ relation.user.email }} vous a contacté pour cette demande
+                        </a>
+                    </p> 
                 {% endif  %}
             {% endfor %}
             {%  if relations|length <= 1 %} 
@@ -48,11 +56,20 @@ vars passed by controller :
             {% endif %}
         {%  else  %}
             {% if isRelated == true %}
-                <big><b>Vous avez contacté le demandeur <a  href="mailto://{{ user.email }}">{{user.pseudo}} {{ user.email }}</a></b></big>
+                <a class="btn btn-primary" href="{{ path('conversation', {'id_relation' : currRelation.id}) }}" > 
+                    Vous avez contacté le demandeur {{user.pseudo}} {{ user.email }}
+                </a>
             {%  else %}    
-                <a class='btn btn-outline-primary' href="{{ path('create_relation', {'id_demand' : demand.id}) }}" class="card-link">
+              <!--  <a class='btn btn-outline-primary' href="{{ path('create_relation', {'id_demand' : demand.id}) }}" class="card-link"> 
+                   Contacter le demandeur {{user.pseudo}} {{ user.email }}
+              -->
+                <a class='btn btn-outline-primary action-open-message card-link'> 
                    Contacter le demandeur {{user.pseudo}} {{ user.email }}
                 </a>  
+                <div class="panel-message bg-light conditional">
+                    <textarea id="the-message" class="form-control" name="message" placeholder="votre message"></textarea>
+                    <button class='action-send-message btn btn-primary'>Envoyer</button>
+                </div>    
             {% endif %}    
         {% endif %}
     {%  else %}
@@ -60,4 +77,12 @@ vars passed by controller :
     {%  endif %}    
   </div>
 </div>
+  
+<script>     
+    var params = {} ;
+    params.url = "{{ url('create_relation', {'id_demand' : demand.id}) }}" ;
+    params.returnUrl = "{{ url('show_demand', {'id' : demand.id}) }}" ;
+    
+</script>
+
 {% endblock %}

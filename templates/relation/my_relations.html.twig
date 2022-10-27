@@ -22,7 +22,9 @@ vars passed by controller :
             
         </td>
         <td> <big><b>Envoyé à {{ demand.email }}</b></big>
-        <td> <a class="btn btn-outline-primary" href="{{ path('show_demand', {id : demand.id}) }}">Voir</a> </td>
+       <!-- <td> <a class="btn btn-outline-primary" href="{{ path('show_demand', {id : demand.id}) }}">Voir</a> </td> -->
+        <td> <a class="btn btn-outline-primary" href="{{ path('conversation', {id_relation : demand.id_relation}) }}">Voir</a> </td> 
+    
     </tr>
 {% endfor %}
 </table> 
