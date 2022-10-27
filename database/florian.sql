@@ -66,8 +66,39 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20221005174804','2022-10-05 19:50:22',93),('DoctrineMigrations\\Version20221006075947','2022-10-06 10:01:36',38),('DoctrineMigrations\\Version20221006080405','2022-10-06 10:04:39',70),('DoctrineMigrations\\Version20221006084114','2022-10-06 10:42:38',16),('DoctrineMigrations\\Version20221007170924','2022-10-07 19:10:06',60),('DoctrineMigrations\\Version20221011141353','2022-10-12 16:12:34',98),('DoctrineMigrations\\Version20221012132045','2022-10-12 16:12:34',102),('DoctrineMigrations\\Version20221012145011','2022-10-12 16:51:57',439);
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20221005174804','2022-10-05 19:50:22',93),('DoctrineMigrations\\Version20221006075947','2022-10-06 10:01:36',38),('DoctrineMigrations\\Version20221006080405','2022-10-06 10:04:39',70),('DoctrineMigrations\\Version20221006084114','2022-10-06 10:42:38',16),('DoctrineMigrations\\Version20221007170924','2022-10-07 19:10:06',60),('DoctrineMigrations\\Version20221011141353','2022-10-12 16:12:34',98),('DoctrineMigrations\\Version20221012132045','2022-10-12 16:12:34',102),('DoctrineMigrations\\Version20221012145011','2022-10-12 16:51:57',439),('DoctrineMigrations\\Version20221027073042','2022-10-27 09:31:54',59),('DoctrineMigrations\\Version20221027074020','2022-10-27 09:40:39',234),('DoctrineMigrations\\Version20221027090232','2022-10-27 11:02:48',63),('DoctrineMigrations\\Version20221027101015','2022-10-27 12:10:21',42);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `message`
+--
+
+DROP TABLE IF EXISTS `message`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_relation_id` int(11) NOT NULL,
+  `id_user_id` int(11) NOT NULL,
+  `message` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_created` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_B6BD307F2A445CAC` (`id_relation_id`),
+  KEY `IDX_B6BD307F79F37AE5` (`id_user_id`),
+  CONSTRAINT `FK_B6BD307F2A445CAC` FOREIGN KEY (`id_relation_id`) REFERENCES `relation` (`id`),
+  CONSTRAINT `FK_B6BD307F79F37AE5` FOREIGN KEY (`id_user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `message`
+--
+
+LOCK TABLES `message` WRITE;
+/*!40000 ALTER TABLE `message` DISABLE KEYS */;
+INSERT INTO `message` VALUES (16,19,13,'j\'en ai un a 50 balles','2022-10-27 16:10:14'),(17,19,14,'C\'est trop cher !!!','2022-10-27 16:49:24'),(18,18,13,'Je suis un tres bon bassiste','2022-10-27 17:01:04');
+/*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -164,7 +195,7 @@ CREATE TABLE `relation` (
   `id_demand` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,7 +204,7 @@ CREATE TABLE `relation` (
 
 LOCK TABLES `relation` WRITE;
 /*!40000 ALTER TABLE `relation` DISABLE KEYS */;
-INSERT INTO `relation` VALUES (1,6,13),(2,7,13),(3,6,14),(4,6,15),(5,7,12),(6,7,14),(7,9,13),(8,8,12);
+INSERT INTO `relation` VALUES (18,3,13),(19,8,13);
 /*!40000 ALTER TABLE `relation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-20 17:35:16
+-- Dump completed on 2022-10-27 17:35:14
